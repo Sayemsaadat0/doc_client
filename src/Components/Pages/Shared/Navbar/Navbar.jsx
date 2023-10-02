@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 const Navbar = () => {
     const menuItems = <>
-        <Link to='/login'>Home</Link>
-        <Link to='/login'>Appoinment</Link>
-        <Link to='/login'>About</Link>
-        <Link to='/login'>Login</Link>
+        <NavLink to='/login'>Home</NavLink>
+        <NavLink to='/appoinment'>Appoinment</NavLink>
+        <NavLink to='/login'>About</NavLink>
+        <NavLink to='/login'>Login</NavLink>
     </>
     return (
         <div className="navbar bg-base-100 ">
