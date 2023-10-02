@@ -27,7 +27,9 @@ const Services = () => {
     ]
     return (
         <div className='lg:py-24'>
-            <SectionTitle bigText={'Service We Provide'} SmallText={'our service'}></SectionTitle>
+            <div className='text-center'>
+                <SectionTitle bigText={'Service We Provide'} SmallText={'our service'}></SectionTitle>
+            </div>
 
 
 
