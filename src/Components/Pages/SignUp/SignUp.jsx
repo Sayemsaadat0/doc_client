@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
 
-const Login = () => {
+const SignUp = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => console.log(data);
     console.log(errors);
@@ -11,11 +11,17 @@ const Login = () => {
         <div className="min-h-screen flex flex-col items-center justify-center ">
             <div className="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-3xl w-50 max-w-md">
                 <div className="font-medium self-center text-xl sm:text-3xl uppercase text-gray-800">
-                    Login
+                    SignUp
                 </div>
                 <div className="mt-10">
                     <form className='' onSubmit={handleSubmit(onSubmit)}>
 
+                        <div className="form-control w-full my-5 ">
+                            <label>Your Name</label>
+                            <input
+                                className='input my-2 input-bordered w-full'
+                                type="text" placeholder="Name" {...register("Name", { required: true, pattern: /^\S+@\S+$/i })} />
+                        </div>
 
                         <div className="form-control w-full my-5 ">
                             <label>Enter Your Email</label>
@@ -32,10 +38,10 @@ const Login = () => {
                                 type="password" placeholder="Password" {...register("Email", { required: true, pattern: /^\S+@\S+$/i })} />
                         </React.Fragment>
 
-                        <button className='btn bg-gradient-to-r from-primary to-secondary w-full text-white mt-6'>Login</button>
+                        <button className='btn bg-gradient-to-r from-primary to-secondary w-full text-white mt-6'>SignUp</button>
                     </form>
                     <div className=" mt-6">
-                       <h5 className=' text-center'>New to Doctor's Portal? <Link to='/signup' className='text-primary'>Create New Account</Link> </h5>
+                        <h5 className=' text-center'>Already Have an account?? <Link to='/login' className='text-primary'>Login Here!</Link> </h5>
                     </div>
 
                     <div className='divider'>or</div>
@@ -49,4 +55,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default SignUp;
