@@ -21,18 +21,18 @@ const Login = () => {
                             <label>Enter Your Email</label>
                             <input
                                 className='input my-2 input-bordered w-full'
-                                type="text" placeholder="Email" {...register("Email", { required: true, pattern: /^\S+@\S+$/i })} />
+                                type="email" placeholder="Email" {...register("Email", { required: true})} />
                         </div>
 
 
-                        <React.Fragment className="form-control w-full my-5">
+                        <React.Fragment >
                             <label>Enter Your password </label>
                             <input
                                 className='input my-2 input-bordered w-full'
-                                type="password" placeholder="Password" {...register("Email", { required: true, pattern: /^\S+@\S+$/i })} />
+                                type="password" placeholder="Password" {...register("password", { required: true })} />
                         </React.Fragment>
 
-                        <button className='btn bg-gradient-to-r from-primary to-secondary w-full text-white mt-6'>Login</button>
+                        <button className='btn btn-accent w-full mt-6'>Login</button>
                     </form>
                     <div className=" mt-6">
                        <h5 className=' text-center'>New to Doctor's Portal? <Link to='/signup' className='text-primary'>Create New Account</Link> </h5>

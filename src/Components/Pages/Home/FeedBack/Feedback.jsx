@@ -6,7 +6,7 @@ const Feedback = () => {
     <div>
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
-          <div classNameName='mb-20'>
+          <div className='mb-20'>
             <SectionTitle SmallText={'Testimonials'} bigText={'What Our Patients Says'}>
 
             </SectionTitle>
