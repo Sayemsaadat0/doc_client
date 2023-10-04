@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../AuthContext/AuthProvider/AuthProvider';
 
 const Login = () => {
+
+    const { loginUser } = useContext(AuthContext)
+
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = data => console.log(data);
+
+    const handleLogin = data => {
+        loginUser(data.Email, data.password)
+            .then(result => {
+                const user = result.user
+                console.log(user);
+            })
+            .catch(err => console.log(err))
+    };
     console.log(errors);
     return (
         <div className="min-h-screen flex flex-col items-center justify-center ">
@@ -14,14 +26,14 @@ const Login = () => {
                     Login
                 </div>
                 <div className="mt-10">
-                    <form className='' onSubmit={handleSubmit(onSubmit)}>
+                    <form className='' onSubmit={handleSubmit(handleLogin)}>
 
 
                         <div className="form-control w-full my-5 ">
                             <label>Enter Your Email</label>
                             <input
                                 className='input my-2 input-bordered w-full'
-                                type="email" placeholder="Email" {...register("Email", { required: true})} />
+                                type="email" placeholder="Email" {...register("Email", { required: true })} />
                         </div>
 
 
@@ -35,7 +47,7 @@ const Login = () => {
                         <button className='btn btn-accent w-full mt-6'>Login</button>
                     </form>
                     <div className=" mt-6">
-                       <h5 className=' text-center'>New to Doctor's Portal? <Link to='/signup' className='text-primary'>Create New Account</Link> </h5>
+                        <h5 className=' text-center'>New to Doctor's Portal? <Link to='/signup' className='text-primary'>Create New Account</Link> </h5>
                     </div>
 
                     <div className='divider'>or</div>
