@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../AuthContext/AuthProvider/AuthProvider';
 
-const SignUp = () => {
+const SignUp = () => { 
+
+    const {createUser} = useContext(AuthContext)
+
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = data => console.log(data);
-    console.log(errors);
+    const handleSignUp = data => {
+        console.log(data);
+        createUser(data.Email, data.password) 
+        .then(result => {
+            const user = result.user; 
+            console.log(user);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+;
     return (
         <div className="min-h-screen flex flex-col items-center justify-center ">
             <div className="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-3xl w-50 max-w-md">
@@ -14,7 +28,7 @@ const SignUp = () => {
                     SignUp
                 </div>
                 <div className="mt-10">
-                    <form className='' onSubmit={handleSubmit(onSubmit)}>
+                    <form className='' onSubmit={handleSubmit(handleSignUp)}>
 
                         <div className="form-control w-full my-5 ">
                             <label>Your Name</label>
