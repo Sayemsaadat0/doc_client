@@ -4,6 +4,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../AuthContext/AuthProvider/AuthProvider';
 import { set } from 'date-fns';
+import toast from 'react-hot-toast';
 
 const Login = () => {
     const [loginError, setLoginError] = useState('')
@@ -18,6 +19,7 @@ const Login = () => {
             .then(result => {
                 const user = result.user
                 console.log(user);
+                toast('logged in successfully')
             })
             .catch(err => {
                 setLoginError(err.message);

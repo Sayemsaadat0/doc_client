@@ -8,7 +8,6 @@ const ContactUs = () => {
         console.log(data)
         reset()
     };
-    console.log(errors);
 
     return (
         <section className='py-16' style={{

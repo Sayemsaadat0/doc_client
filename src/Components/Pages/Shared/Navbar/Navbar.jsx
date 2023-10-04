@@ -9,11 +9,14 @@ const Navbar = () => {
             .then(() => { console.log('loged out') }).catch((error) => { console.log(error) });
     }
     const menuItems = <>
-        <NavLink to='/login'>Home</NavLink>
+        <NavLink to='/'>Home</NavLink>
         <NavLink to='/appoinment'>Appoinment</NavLink>
-        <NavLink to='/login'>About</NavLink>
+        <NavLink to='/about'>About</NavLink>
         {
-            user?.uid ? <button onClick={handleLogOut} >Log out</button> : <NavLink to='/login'>Login</NavLink>
+            user?.uid ? <>
+                <NavLink to='/dashboard'>Dashboard</NavLink>
+                <button onClick={handleLogOut} >Log out</button>
+            </> : <NavLink to='/login'>Login</NavLink>
         }
     </>
     return (

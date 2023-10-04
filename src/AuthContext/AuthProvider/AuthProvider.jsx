@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import docApp from "../../Firebase/Firebase.config";
 import { set } from "date-fns";
@@ -17,8 +17,14 @@ const AuthProvider = ({ children }) => {
         return signInWithEmailAndPassword(auth, email, password)
     }  
 
+    // logout
     const logout = () => {
         return signOut(auth)
+    }
+
+    // update username 
+    const updateUser = (userInfo) => {
+        return updateProfile(user, userInfo)
     }
 
 
@@ -32,6 +38,7 @@ const AuthProvider = ({ children }) => {
     const authInfo = {
         createUser,
         loginUser,
+        updateUser,
         user,
         logout
         
