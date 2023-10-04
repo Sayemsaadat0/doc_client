@@ -1,22 +1,27 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../AuthContext/AuthProvider/AuthProvider';
+import { set } from 'date-fns';
 
 const Login = () => {
+    const [loginError, setLoginError] = useState('')
 
     const { loginUser } = useContext(AuthContext)
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const handleLogin = data => {
+        setLoginError('')
         loginUser(data.Email, data.password)
             .then(result => {
                 const user = result.user
                 console.log(user);
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                setLoginError(err.message);
+            })
     };
     console.log(errors);
     return (
@@ -46,6 +51,7 @@ const Login = () => {
 
                         <button className='btn btn-accent w-full mt-6'>Login</button>
                     </form>
+                    <p className='text-red-500'>{loginError}</p>
                     <div className=" mt-6">
                         <h5 className=' text-center'>New to Doctor's Portal? <Link to='/signup' className='text-primary'>Create New Account</Link> </h5>
                     </div>
