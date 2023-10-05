@@ -1,21 +1,30 @@
+import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle } from 'react-icons/ai';
 
 const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
-    const [appoinmentOption, setAppoinmentOptions] = useState([])
+    // const [appoinmentOption, setAppoinmentOptions] = useState([])
     const [treatment, setTreatment] = useState(null)
 
+    // this is working .then
+    /*     const { data: appoinmentOption = [], isLoading } = useQuery(['appoinmentOptions'],
+            () => {
+                return fetch(`${import.meta.env.VITE_PROJECTURL}/appoinmentOptions`)
+                    .then((res) => res.json());
+            }); */
 
 
+    // this is working async promise
+    const { data: appoinmentOption = [], isLoading } = useQuery(['appoinmentOptions'],
+        async () => {
+            const res = await fetch(`${import.meta.env.VITE_PROJECTURL}/appoinmentOptions`)
+            const resData = await res.json();
+            return resData
+        });
 
-    // fetching data
-    useEffect(() => {
-        fetch('appoinmentOptions.json')
-            .then(res => res.json())
-            .then(data => setAppoinmentOptions(data))
-    }, [])
+
 
     // opening modal by clicking 
     const handleOpenModal = (data) => {
@@ -66,7 +75,7 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
                                 <form className='flex  flex-col gap-6 ' onSubmit={handleSubmit(onSubmit)}>
 
                                     {/* everything is working without this  */}
-                                 {/*    <input
+                                    {/*    <input
                                         className='input input-bordered text-black' type="text"
                                         placeholder={date}
                                         {...register("date")} /> */}
