@@ -5,26 +5,15 @@ import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle } from 'react-icons/ai';
 
 const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
-    // const [appoinmentOption, setAppoinmentOptions] = useState([])
+
     const [treatment, setTreatment] = useState(null)
 
-    // this is working .then
-    /*     const { data: appoinmentOption = [], isLoading } = useQuery(['appoinmentOptions'],
-            () => {
-                return fetch(`${import.meta.env.VITE_PROJECTURL}/appoinmentOptions`)
-                    .then((res) => res.json());
-            }); */
 
-
-    // this is working async promise
-    const { data: appoinmentOption = [], isLoading } = useQuery(['appoinmentOptions'],
-        async () => {
-            const res = await fetch(`${import.meta.env.VITE_PROJECTURL}/appoinmentOptions`)
-            const resData = await res.json();
-            return resData
-        });
-
-
+    const { data: appoinmentOption = [], isLoading } = useQuery(['appoinmentOption'], async () => {
+        const response = await fetch(`${import.meta.env.VITE_PROJECTURL}/appoinmentOptions`)
+        const responseData = await response.json()
+        return responseData
+    })
 
     // opening modal by clicking 
     const handleOpenModal = (data) => {
