@@ -1,21 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import { AuthContext } from '../../../AuthContext/AuthProvider/AuthProvider';
 
 const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
-    // const [appoinmentOption, setAppoinmentOptions] = useState([])
     const [treatment, setTreatment] = useState(null)
 
-    // this is working .then
-    /*     const { data: appoinmentOption = [], isLoading } = useQuery(['appoinmentOptions'],
-            () => {
-                return fetch(`${import.meta.env.VITE_PROJECTURL}/appoinmentOptions`)
-                    .then((res) => res.json());
-            }); */
-
-
+    const { user } = useContext(AuthContext)
     // this is working async promise
     const { data: appoinmentOption = [], isLoading } = useQuery(['appoinmentOptions'],
         async () => {
@@ -24,7 +17,7 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
             return resData
         });
 
-
+        
 
     // opening modal by clicking 
     const handleOpenModal = (data) => {
@@ -35,11 +28,12 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
 
     // handle data 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
+
     const onSubmit = data => {
-        reset();
         console.log(data);
+        reset();
     };
-    console.log(errors);
+    // console.log(errors);
 
     return (
         <div>
@@ -89,6 +83,7 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
                                         className='input input-bordered'
                                         type="text"
                                         placeholder="Your Full Name"
+                                        defaultValue={user?.displayName}
                                         {...register("fullname", { required: true, maxLength: 80 })} />
 
 
@@ -101,13 +96,14 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
                                     <input
                                         className='input input-bordered'
                                         type="email"
+                                        defaultValue={user?.email}
                                         placeholder="Enter Email"
                                         {...register("email", { required: true, maxLength: 80 })} />
 
 
 
                                     <div className='flex justify-center'>
-                                        <button className='btn bg-gradient-to-r from-primary to-secondary  btn-primary w-full text-white' type='submit'>Submit</button>
+                                        <button onClick={handleSubmit(onSubmit)} className='btn bg-gradient-to-r from-primary to-secondary  btn-primary w-full text-white' type='submit'>Submit</button>
                                     </div>
                                 </form>
                             </div>

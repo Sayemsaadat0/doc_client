@@ -7,18 +7,18 @@ export const AuthContext = createContext();
 const auth = getAuth(docApp)
 
 const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null) 
+    const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     // sign up with email and password 
     const createUser = (email, password) => {
         setLoading(true)
-        return createUserWithEmailAndPassword(auth, email, password) 
+        return createUserWithEmailAndPassword(auth, email, password)
     }
     // login with email and password
     const loginUser = (email, password) => {
         setLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
-    }  
+    }
 
     // logout
     const logout = () => {
@@ -28,18 +28,18 @@ const AuthProvider = ({ children }) => {
 
     // update username 
     const updateUser = (userInfo) => {
-        return updateProfile(user, userInfo)
+        return updateProfile(auth.currentUser, userInfo)
     }
 
 
     // on authstatechange 
-    useEffect(()=>{
-      const unsubscribe = onAuthStateChanged(auth, currentUser=>{
-            setUser(currentUser) 
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, currentUser => {
+            setUser(currentUser)
             setLoading(false)
         })
-        return ()=> unsubscribe()
-    },[])
+        return () => unsubscribe()
+    }, [])
     const authInfo = {
         createUser,
         loginUser,
@@ -47,7 +47,7 @@ const AuthProvider = ({ children }) => {
         user,
         logout,
         loading
-        
+
     }
 
     return (

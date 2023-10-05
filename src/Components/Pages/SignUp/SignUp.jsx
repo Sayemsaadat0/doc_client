@@ -1,28 +1,31 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../AuthContext/AuthProvider/AuthProvider';
 import toast from 'react-hot-toast';
 
 const SignUp = () => {
     const [signUpError, setsignUpError] = useState('')
 
-    const { createUser, updateUser } = useContext(AuthContext)
+    const { createUser, updateUser } = useContext(AuthContext) 
+    const navigate = useNavigate()
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const handleSignUp = data => {
         setsignUpError('')
         console.log(data);
-        createUser(data.Email, data.password)
+        createUser(data.Email, data.password ,)
             .then(result => {
                 const user = result.user;
                 toast('User Creater Successfully')
                 const updateUserInfo = {
-                    displayname: data.Name
+                    displayName: data.Name
                 }
                 updateUser(updateUserInfo)
-                    .then(result => { }).catch(err => console.log(err))
+                    .then(result => { 
+                        navigate('/')
+                     }).catch(err => console.log(err))
             })
             .catch(err => {
                 console.log(err.message);
