@@ -17,16 +17,16 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
             return resData
         });
 
-        
 
-    // opening modal by clicking 
+
+
     const handleOpenModal = (data) => {
         setTreatment(data);
         document.getElementById('my_modal_5').showModal();
     }
     const date = format(selectedDate, 'PP');
 
-    // handle data 
+    // useForm load data
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
     const onSubmit = data => {
