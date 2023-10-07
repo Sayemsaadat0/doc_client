@@ -4,6 +4,7 @@ import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { AuthContext } from '../../../AuthContext/AuthProvider/AuthProvider';
+import toast from 'react-hot-toast';
 
 const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
     const [treatment, setTreatment] = useState(null)
@@ -30,13 +31,22 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
     const onSubmit = (data) => {
-        const { name,
-            slot,
-            FullName,
-            PhoneNo,
-            Email } = data
-        console.log(data);
-        // reset();
+        fetch(`http://localhost:5000/bookings`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(datas => {
+             if(datas.acknowledged){
+                 toast.success('scoredddddddd')
+             }
+             else{
+                toast.error(datas.message)
+             }
+            })
     };
     // console.log(errors);
 
