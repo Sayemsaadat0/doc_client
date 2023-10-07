@@ -1,45 +1,53 @@
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import { AuthContext } from '../../../AuthContext/AuthProvider/AuthProvider';
+import toast from 'react-hot-toast';
 
 const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
-
     const [treatment, setTreatment] = useState(null)
 
+    const { user } = useContext(AuthContext)
+    // this is working async promise
+    const { data: appoinmentOption = [], isLoading } = useQuery(['appoinmentOptions'],
+        async () => {
+            const res = await fetch(`${import.meta.env.VITE_PROJECTURL}/appoinmentOptions`)
+            const resData = await res.json();
+            return resData
+        });
 
-    const { data: appoinmentOption = [], isLoading } = useQuery(['appoinmentOption'], async () => {
-        const response = await fetch(`${import.meta.env.VITE_PROJECTURL}/appoinmentOptions`)
-        const responseData = await response.json()
-        return responseData
-    })
 
-    // opening modal by clicking 
+
     const handleOpenModal = (data) => {
         setTreatment(data);
         document.getElementById('my_modal_5').showModal();
     }
     const date = format(selectedDate, 'PP');
 
-    // handle data 
+    // useForm load data
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
-    const onSubmit = data => {
-        fetch(`${import.meta.env.VITE_PROJECTURL}/bookings`,
-            {
-                method: 'POST',
-                headers: {
-                    'content-Type': 'appilication/json'
-                },
-                body: JSON.stringify(data)
-            })
+
+    const onSubmit = (data) => {
+        fetch(`${import.meta.env.VITE_PROJECTURL}/bookings`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
             .then(res => res.json())
-            .then(datass => {
-                console.log(datass);
+            .then(datas => {
+             if(datas.acknowledged){
+                 toast.success('scoredddddddd')
+             }
+             else{
+                toast.error(datas.message)
+             }
             })
-
     };
-
+    // console.log(errors);
 
     return (
         <div>
@@ -73,15 +81,21 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
 
                             <div >
                                 <form className='flex  flex-col gap-6 ' onSubmit={handleSubmit(onSubmit)}>
+                                    <input
+                                        className='input input-bordered'
+                                        type="text"
+                                        readOnly
+                                        defaultValue={treatment.name}
+                                        {...register("Treatment")} />
 
                                     {/* everything is working without this  */}
-                                    {/*    <input
+                                    <input
                                         className='input input-bordered text-black' type="text"
-                                        placeholder={date}
-                                        {...register("date")} /> */}
+                                        defaultValue={date}
+                                        {...register("date")} />
 
                                     <select {...register("slot", { required: true })} className="select select-bordered w-full ">
-                                        <option disabled selected>Select time</option>
+                                        <option disabled defaultValue>Select time</option>
                                         {treatment.slots?.map((slot, index) => <option key={index}>{slot}</option>)}
                                     </select>
 
@@ -89,6 +103,7 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
                                         className='input input-bordered'
                                         type="text"
                                         placeholder="Your Full Name"
+                                        defaultValue={user?.displayName}
                                         {...register("fullname", { required: true, maxLength: 80 })} />
 
 
@@ -101,13 +116,15 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
                                     <input
                                         className='input input-bordered'
                                         type="email"
+                                        readOnly
+                                        defaultValue={user?.email}
                                         placeholder="Enter Email"
                                         {...register("email", { required: true, maxLength: 80 })} />
 
 
 
                                     <div className='flex justify-center'>
-                                        <button className='btn bg-gradient-to-r from-primary to-secondary  btn-primary w-full text-white' type='submit'>Submit</button>
+                                        <button onClick={handleSubmit(onSubmit)} className='btn bg-gradient-to-r from-primary to-secondary  btn-primary w-full text-white' type='submit'>Submit</button>
                                     </div>
                                 </form>
                             </div>
