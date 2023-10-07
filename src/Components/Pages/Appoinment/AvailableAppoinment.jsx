@@ -25,10 +25,21 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
     // handle data 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const onSubmit = data => {
-        reset();
-        console.log(data);
+        fetch(`${import.meta.env.VITE_PROJECTURL}/bookings`,
+            {
+                method: 'POST',
+                headers: {
+                    'content-Type': 'appilication/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(datass => {
+                console.log(datass);
+            })
+
     };
-    console.log(errors);
+
 
     return (
         <div>
