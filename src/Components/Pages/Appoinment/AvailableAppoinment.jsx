@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { AuthContext } from '../../../AuthContext/AuthProvider/AuthProvider';
@@ -29,9 +29,14 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
     // useForm load data
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
-    const onSubmit = data => {
+    const onSubmit = (data) => {
+        const { name,
+            slot,
+            FullName,
+            PhoneNo,
+            Email } = data
         console.log(data);
-        reset();
+        // reset();
     };
     // console.log(errors);
 
@@ -67,15 +72,21 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
 
                             <div >
                                 <form className='flex  flex-col gap-6 ' onSubmit={handleSubmit(onSubmit)}>
+                                    <input
+                                        className='input input-bordered'
+                                        type="text"
+                                        readOnly
+                                        defaultValue={treatment.name}
+                                        {...register("Treatment")} />
 
                                     {/* everything is working without this  */}
-                                    {/*    <input
+                                    <input
                                         className='input input-bordered text-black' type="text"
-                                        placeholder={date}
-                                        {...register("date")} /> */}
+                                        defaultValue={date}
+                                        {...register("date")} />
 
                                     <select {...register("slot", { required: true })} className="select select-bordered w-full ">
-                                        <option disabled selected>Select time</option>
+                                        <option disabled defaultValue>Select time</option>
                                         {treatment.slots?.map((slot, index) => <option key={index}>{slot}</option>)}
                                     </select>
 
@@ -96,6 +107,7 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
                                     <input
                                         className='input input-bordered'
                                         type="email"
+                                        readOnly
                                         defaultValue={user?.email}
                                         placeholder="Enter Email"
                                         {...register("email", { required: true, maxLength: 80 })} />
