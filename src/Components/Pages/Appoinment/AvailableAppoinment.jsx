@@ -18,6 +18,8 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
             return resData
         });
 
+  
+
 
 
     const handleOpenModal = (data) => {
@@ -39,12 +41,12 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
         })
             .then(res => res.json())
             .then(datas => {
-             if(datas.acknowledged){
-                 toast.success('scoredddddddd')
-             }
-             else{
-                toast.error(datas.message)
-             }
+                if (datas.acknowledged) {
+                    toast.success('scoredddddddd')
+                }
+                else {
+                    toast.error(datas.message)
+                }
             })
     };
     // console.log(errors);
