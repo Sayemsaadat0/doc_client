@@ -15,6 +15,8 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
     const { data: appoinmentOption = [] } = useQuery(['appoinmentOptions', date],
         async () => {
             const res = await fetch(`${import.meta.env.VITE_PROJECTURL}/appoinmentOptions?date=${date}`)
+            console.log(res);
+            console.log(date);
             const resData = await res.json();
             return resData
         });
