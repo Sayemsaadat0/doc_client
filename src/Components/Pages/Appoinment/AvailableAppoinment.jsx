@@ -8,12 +8,13 @@ import toast from 'react-hot-toast';
 
 const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
     const [treatment, setTreatment] = useState(null)
+    const date = format(selectedDate, 'PP');
 
     const { user } = useContext(AuthContext)
     // this is working async promise
-    const { data: appoinmentOption = [], isLoading } = useQuery(['appoinmentOptions'],
+    const { data: appoinmentOption = [] } = useQuery(['appoinmentOptions', date],
         async () => {
-            const res = await fetch(`${import.meta.env.VITE_PROJECTURL}/appoinmentOptions`)
+            const res = await fetch(`${import.meta.env.VITE_PROJECTURL}/appoinmentOptions?date=${date}`)
             const resData = await res.json();
             return resData
         });
@@ -25,13 +26,13 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
         setTreatment(data);
         document.getElementById('my_modal_5').showModal();
     }
-    const date = format(selectedDate, 'PP');
+
 
     // useForm load data
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
     const onSubmit = (data) => {
-        fetch(`http://localhost:5000/bookings`, {
+        fetch(`${import.meta.env.VITE_PROJECTURL}/bookings`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -40,12 +41,12 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
         })
             .then(res => res.json())
             .then(datas => {
-             if(datas.acknowledged){
-                 toast.success('scoredddddddd')
-             }
-             else{
-                toast.error(datas.message)
-             }
+                if (datas.acknowledged) {
+                    toast.success('scoredddddddd')
+                }
+                else {
+                    toast.error(datas.message)
+                }
             })
     };
     // console.log(errors);
@@ -93,7 +94,7 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
                                     <input
                                         className='input input-bordered text-black' type="text"
                                         defaultValue={date}
-                                        {...register("date")} />
+                                        {...register("appoinment_Date")} />
 
                                     <select {...register("slot", { required: true })} className="select select-bordered w-full ">
                                         <option disabled defaultValue>Select time</option>
