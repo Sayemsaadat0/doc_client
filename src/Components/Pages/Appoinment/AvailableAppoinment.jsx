@@ -133,7 +133,6 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
                                 </form>
                             </div>
                         </div>
-
                     )}
                     <div className="modal-action">
                         <form method="dialog">
