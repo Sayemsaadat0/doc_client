@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { AuthContext } from '../../../AuthContext/AuthProvider/AuthProvider';
 import toast from 'react-hot-toast';
+import Loading from '../Shared/Loading/Loading';
 
 const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
     const [treatment, setTreatment] = useState(null)
@@ -12,11 +13,9 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
 
     const { user } = useContext(AuthContext)
     // this is working async promise
-    const { data: appoinmentOption = [] } = useQuery(['appoinmentOptions', date],
+    const { data: appoinmentOption = [] , refetch, isLoading} = useQuery(['appoinmentOptions', date],
         async () => {
             const res = await fetch(`${import.meta.env.VITE_PROJECTURL}/appoinmentOptions?date=${date}`)
-            console.log(res);
-            console.log(date);
             const resData = await res.json();
             return resData
         });
@@ -45,6 +44,7 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
             .then(datas => {
                 if (datas.acknowledged) {
                     toast.success('scoredddddddd')
+                    refetch()
                 }
                 else {
                     toast.error(datas.message)
@@ -52,6 +52,9 @@ const AvailableAppoinment = ({ selectedDate, setSelectedDate }) => {
             })
     };
     // console.log(errors);
+  /*   if(isLoading){
+        return <Loading></Loading>
+    } */
 
     return (
         <div>
