@@ -6,12 +6,10 @@ import DentalCare from './DentalCare/DentalCare';
 import MakeAppoinment from './MakeAppoinment/MakeAppoinment';
 import Feedback from './FeedBack/Feedback';
 import ContactUs from './ContactUs/ContactUs';
-import App from '../../../App';
 
 const Home = () => {
     return (
         <div>
-            <App></App>
             <Banner></Banner>
             <InfoCards></InfoCards>
             <Services></Services>
