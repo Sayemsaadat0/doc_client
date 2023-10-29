@@ -1,13 +1,11 @@
+import React from 'react';
 
-
-function App() {
-
-
+const App = () => {
   return (
     <div>
- 
+      This is app page for normal 
     </div>
   );
-}
+};
 
 export default App;
